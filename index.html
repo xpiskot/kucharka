@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Piškotův průvodce vařením</title>
+<style>
+  :root {
+    --blue: #0b3a9c;
+    --ink: #1f1f1f;
+    --text: #555;
+    --muted: #8a8a8a;
+    --faint: #c9c9c9;
+    --line: #e8e8e8;
+    --paper: #ffffff;
+    --bg: #f4f4f2;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- horní lišta ---------- */
+  .top {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 22px 24px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .brand {
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .brand b { color: var(--blue); }
+  .actions { display: flex; gap: 10px; align-items: center; }
+  .btn {
+    font: inherit; font-size: 13px;
+    background: transparent; color: var(--muted);
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 6px 14px; cursor: pointer;
+  }
+  .btn:hover { color: var(--blue); border-color: var(--blue); }
+  .search {
+    font: inherit; font-size: 13px;
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 6px 14px; width: 190px; background: #fff; color: var(--ink);
+  }
+  .search:focus { outline: none; border-color: var(--blue); }
+
+  main { max-width: 1080px; margin: 0 auto; padding: 0 24px 60px; }
+
+  /* ---------- „stránka“ ---------- */
+  .sheet {
+    position: relative;
+    background: var(--paper);
+    box-shadow: 0 1px 2px rgba(0,0,0,.05), 0 12px 40px rgba(0,0,0,.06);
+    padding: 56px 56px 64px;
+  }
+
+  /* ---------- seznam ---------- */
+  .home-title {
+    font-size: 44px; line-height: 1.05; font-weight: 700;
+    color: var(--blue); margin: 0 0 6px; letter-spacing: -.01em;
+  }
+  .home-sub { color: var(--muted); font-size: 13px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 36px; }
+  .list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .list li { border-bottom: 1px solid var(--line); }
+  .list a {
+    display: grid; grid-template-columns: 56px 1fr auto; gap: 16px;
+    align-items: baseline; padding: 18px 4px;
+  }
+  .list a:hover .t { color: var(--blue); }
+  .list .n { color: var(--faint); font-size: 13px; letter-spacing: .1em; }
+  .list .t { font-size: 20px; font-weight: 700; color: var(--ink); transition: color .15s; }
+  .list .c { font-size: 12px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; display: block; margin-top: 2px; font-weight: 400; }
+  .list .m { font-size: 13px; color: var(--muted); text-align: right; }
+  .empty { color: var(--muted); padding: 30px 4px; }
+
+  /* ---------- detail receptu ---------- */
+  .recipe { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 56px; }
+  .recipe::before {  /* jemný „hřbet“ mezi stranami */
+    content: ""; position: absolute; top: 0; bottom: 0; left: 42%;
+    width: 60px; transform: translateX(-50%);
+    background: linear-gradient(to right, rgba(0,0,0,0), rgba(0,0,0,.035) 50%, rgba(0,0,0,0));
+    pointer-events: none;
+  }
+  .kicker { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  h1 {
+    margin: 0 0 24px; font-size: 44px; line-height: 1.04; font-weight: 700;
+    color: var(--blue); letter-spacing: -.01em; overflow-wrap: break-word; hyphens: auto;
+  }
+  .photo { width: 100%; height: auto; display: block; margin: 0 0 22px; }
+  .photo[hidden] { display: none; }
+  .facts { margin: 0 0 26px; padding: 0; list-style: none; font-size: 13px; color: var(--text); }
+  .facts li { margin: 0 0 8px; }
+  .facts b { color: var(--ink); font-weight: 700; }
+
+  h2 { font-size: 20px; line-height: 1.2; font-weight: 700; color: var(--blue); margin: 0 0 14px; }
+  section + section { margin-top: 34px; }
+  .group {
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); margin: 18px 0 8px; font-weight: 600;
+  }
+  .group:first-of-type { margin-top: 0; }
+
+  ul.ing { list-style: none; margin: 0; padding: 0; }
+  ul.ing li { position: relative; padding: 0 0 8px 24px; font-size: 13.5px; }
+  ul.ing li::before {
+    content: ""; position: absolute; left: 4px; top: .5em;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--faint);
+  }
+
+  ol.steps { list-style: none; counter-reset: s; margin: 0; padding: 0; }
+  ol.steps li {
+    counter-increment: s; position: relative;
+    padding: 0 0 10px 28px; font-size: 13.5px;
+  }
+  ol.steps li::before {
+    content: counter(s) "."; position: absolute; left: 0; top: 0;
+    color: var(--faint); font-size: 13px;
+  }
+
+  .tip { font-size: 13.5px; margin: 0; }
+  .nutri { font-size: 12.5px; color: var(--muted); margin: 0; }
+  .nutri-wrap { margin-top: 22px; }
+  h3 {
+    font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted); font-weight: 600; margin: 0 0 6px;
+  }
+
+  /* ---------- navigace pod receptem ---------- */
+  .pager {
+    display: flex; justify-content: space-between; gap: 16px;
+    margin-top: 22px; font-size: 13px; color: var(--muted);
+  }
+  .pager a:hover { color: var(--blue); }
+  .pager .mid { flex: 1; text-align: center; }
+
+  footer { text-align: center; color: var(--faint); font-size: 12px; padding: 0 0 34px; letter-spacing: .08em; }
+
+  /* ---------- mobil ---------- */
+  @media (max-width: 820px) {
+    .sheet { padding: 32px 22px 40px; }
+    .recipe { grid-template-columns: 1fr; gap: 30px; }
+    .recipe::before { display: none; }
+    h1, .home-title { font-size: 34px; }
+    .search { width: 130px; }
+    .list a { grid-template-columns: 40px 1fr; }
+    .list .m { grid-column: 2; text-align: left; }
+  }
+
+  /* ---------- tisk ---------- */
+  @media print {
+    body { background: #fff; }
+    .top, .pager, footer { display: none; }
+    main { padding: 0; max-width: none; }
+    .sheet { box-shadow: none; padding: 0; }
+    .recipe::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="#/"><b>Piškotův</b> průvodce vařením</a>
+  <div class="actions">
+    <input id="q" class="search" type="search" placeholder="Hledat…" aria-label="Hledat recept">
+    <button id="print" class="btn" type="button">Tisk</button>
+  </div>
+</header>
+
+<main id="app"></main>
+<footer>PIŠKOTŮV PRŮVODCE VAŘENÍM</footer>
+
+<script src="recipes.js"></script>
+<script>
+(function () {
+  var app = document.getElementById("app");
+  var q = document.getElementById("q");
+  var recipes = (window.RECIPES || []).slice();
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function norm(s) {
+    return String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  }
+  function summary(r) {
+    return (r.facts || []).map(function (f) { return f[0] + " " + f[1]; }).join(" · ");
+  }
+
+  /* ---------- seznam ---------- */
+  function renderHome(filter) {
+    document.title = "Piškotův průvodce vařením";
+    var f = norm(filter || "");
+    var items = recipes.filter(function (r) {
+      if (!f) return true;
+      var hay = [r.title, r.category].concat(
+        (r.ingredients || []).reduce(function (a, g) { return a.concat(g.items || []); }, [])
+      ).join(" ");
+      return norm(hay).indexOf(f) !== -1;
+    });
+
+    var html = '<div class="sheet">' +
+      '<h1 class="home-title">Piškotův průvodce vařením</h1>' +
+      '<div class="home-sub">' + recipes.length + ' ' + plural(recipes.length) + '</div>';
+
+    if (!items.length) {
+      html += '<p class="empty">Nic nenalezeno.</p>';
+    } else {
+      html += '<ul class="list">' + items.map(function (r) {
+        return '<li><a href="#/recept/' + encodeURIComponent(r.id) + '">' +
+          '<span class="n">' + esc(r.id) + '</span>' +
+          '<span class="t">' + esc(r.title) + '<span class="c">' + esc(r.category) + '</span></span>' +
+          '<span class="m">' + esc(summary(r)) + '</span>' +
+          '</a></li>';
+      }).join("") + '</ul>';
+    }
+    app.innerHTML = html + '</div>';
+  }
+  function plural(n) { return n === 1 ? "recept" : (n >= 2 && n <= 4 ? "recepty" : "receptů"); }
+
+  /* ---------- detail ---------- */
+  function renderRecipe(id) {
+    var i = recipes.findIndex(function (r) { return r.id === id; });
+    if (i < 0) { renderHome(); return; }
+    var r = recipes[i];
+    document.title = r.title + " · Piškotův průvodce vařením";
+
+    var facts = (r.facts || []).map(function (f) {
+      return '<li>' + esc(f[0]) + ' <b>' + esc(f[1]) + '</b></li>';
+    }).join("");
+
+    var ing = (r.ingredients || []).map(function (g) {
+      return (g.group ? '<div class="group">' + esc(g.group) + '</div>' : '') +
+        '<ul class="ing">' + (g.items || []).map(function (t) {
+          return '<li>' + esc(t) + '</li>';
+        }).join("") + '</ul>';
+    }).join("");
+
+    var steps = '<ol class="steps">' + (r.steps || []).map(function (t) {
+      return '<li>' + esc(t) + '</li>';
+    }).join("") + '</ol>';
+
+    var photo = '<img class="photo" alt="' + esc(r.title) + '" hidden>';
+
+    var tail = '';
+    if (r.tip) tail += '<section><h2>Tip &amp; variace</h2><p class="tip">' + esc(r.tip) + '</p></section>';
+    if (r.nutrition) tail += '<div class="nutri-wrap"><h3>Výživové hodnoty</h3><p class="nutri">' + esc(r.nutrition) + '</p></div>';
+
+    var prev = recipes[i - 1], next = recipes[i + 1];
+    var pager = '<nav class="pager">' +
+      (prev ? '<a href="#/recept/' + encodeURIComponent(prev.id) + '">← ' + esc(prev.title) + '</a>' : '<span></span>') +
+      '<a class="mid" href="#/">Všechny recepty</a>' +
+      (next ? '<a href="#/recept/' + encodeURIComponent(next.id) + '">' + esc(next.title) + ' →</a>' : '<span></span>') +
+      '</nav>';
+
+    app.innerHTML =
+      '<article class="sheet recipe">' +
+        '<div class="side">' +
+          '<p class="kicker">Recept ' + esc(r.id) + (r.category ? ' · ' + esc(r.category) : '') + '</p>' +
+          '<h1>' + esc(r.title) + '</h1>' +
+          photo +
+          (facts ? '<ul class="facts">' + facts + '</ul>' : '') +
+        '</div>' +
+        '<div class="body">' +
+          '<section><h2>Ingredience</h2>' + ing + '</section>' +
+          '<section><h2>Postup</h2>' + steps + '</section>' +
+          tail +
+        '</div>' +
+      '</article>' + pager;
+
+    loadPhoto(app.querySelector('.photo'), r);
+  }
+
+  /* Fotka: r.image (pokud je vyplněné), jinak img/<id>.jpg|jpeg|png|webp. Chybí-li, nezobrazí se. */
+  function loadPhoto(img, r) {
+    if (!img) return;
+    var list = r.image ? [r.image] : ["jpg", "jpeg", "png", "webp"].map(function (e) {
+      return "img/" + encodeURIComponent(r.id) + "." + e;
+    });
+    var k = 0;
+    img.onload = function () { img.hidden = false; };
+    img.onerror = function () {
+      k++;
+      if (k < list.length) img.src = list[k]; else img.remove();
+    };
+    img.src = list[0];
+  }
+
+  /* ---------- router ---------- */
+  function route() {
+    var m = location.hash.match(/^#\/recept\/(.+)$/);
+    if (m) renderRecipe(decodeURIComponent(m[1]));
+    else renderHome(q.value);
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener("hashchange", route);
+
+  q.addEventListener("input", function () {
+    if (location.hash !== "" && location.hash !== "#/") location.hash = "#/";
+    else renderHome(q.value);
+  });
+  document.getElementById("print").addEventListener("click", function () { window.print(); });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.target === q || e.metaKey || e.ctrlKey || e.altKey) return;
+    var m = location.hash.match(/^#\/recept\/(.+)$/);
+    if (!m) return;
+    var id = decodeURIComponent(m[1]);
+    var i = recipes.findIndex(function (r) { return r.id === id; });
+    if (e.key === "ArrowLeft" && recipes[i - 1]) location.hash = "#/recept/" + encodeURIComponent(recipes[i - 1].id);
+    if (e.key === "ArrowRight" && recipes[i + 1]) location.hash = "#/recept/" + encodeURIComponent(recipes[i + 1].id);
+  });
+
+  route();
+})();
+</script>
+</body>
+</html>

@@ -102,7 +102,7 @@ window.RECIPES = [
       "Těsto přendej do formy a peč cca 50 minut. Špejle má vyjít bez syrového těsta.",
       "Nech vychladnout na mřížce, vyklop a nakrájej."
     ],
-    tip: "Úpravy: cukr na polovinu; 125 ml kokosového mléka nahrazeno 65 ml mléka + 65 ml jogurtu. Vanilkový extrakt a limetková šťáva vynechány.",
+    tip: "Po vložení těsta do formy jej můžete posypat skořicovým cukrem pro sladkou krustu.",
     nutrition: "Orientačně na 1 porci (z 9): 275 kcal · B 4,2 g · T 11,7 g · S 39,4 g.",
     image: ""
   },

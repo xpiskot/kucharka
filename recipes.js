@@ -182,7 +182,7 @@ window.RECIPES = [
     tip: "Vylepšení: přidej cibulové chutney a/nebo houby opečené dozlatova na pánvi.",
     nutrition: "Orientačně na 1 wrap: 750 kcal · B 27 g · T 48 g · S 43 g. Záleží na množství avokáda a dipu.",
     image: ""
-  }
+  },
   {
     id: "005",
     title: "Tvarohový trhanec s lesním ovocem",

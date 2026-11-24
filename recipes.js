@@ -94,12 +94,11 @@ window.RECIPES = [
       }
     ],
     steps: [
-      "Troubu předehřej na 180 °C. Formu vymaž a vylož pečicím papírem.",
-      "Smíchej mouku, prášek do pečiva a jedlou sodu.",
-      "V jiné míse smíchej banány, mléko a jogurt.",
-      "Máslo vyšlehej s cukrem, přidej vejce.",
+      "Troubu předehřej na 180 °C. Formu vymaž trochou másla",
+      "Smíchej mouku, cukr, prášek do pečiva a jedlou sodu.",
+      "V jiné míse nejdřív rozmačkej banány a poté přidej mléko, vejce a jogurt.",
       "Střídavě zapracuj suchou a banánovou směs.",
-      "Těsto přendej do formy a peč cca 50 minut. Špejle má vyjít bez syrového těsta.",
+      "Těsto přendej do formy a peč cca 50 minut. Špejle má vyjít bez syrového těsta, ale bananabread musí být vlhký.",
       "Nech vychladnout na mřížce, vyklop a nakrájej."
     ],
     tip: "Po vložení těsta do formy jej můžete posypat skořicovým cukrem pro sladkou krustu.",

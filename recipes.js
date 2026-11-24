@@ -340,5 +340,5 @@ window.RECIPES = [
     tip: "Jarní cibulka a sezam jsou volitelné.",
     nutrition: "Orientačně na 1 porci: 750 kcal · B 53,5 g · T 27,4 g · S 75,3 g. Výpočet pro kuřecí variantu, bez přidaného oleje; jarní cibulka a sezam nejsou započítány.",
     image: ""
-  }
+  },
 ];
